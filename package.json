@@ -1,0 +1,23 @@
+{
+  "name": "bbs",
+  "version": "1.0.0",
+  "description": "bulletin board system",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piraaa/bbs.git"
+  },
+  "author": "pira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/piraaa/bbs/issues"
+  },
+  "homepage": "https://github.com/piraaa/bbs#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "mongodb": "^3.2.5"
+  }
+}
