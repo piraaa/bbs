@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>BBS</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<h1>BBS</h1>
+
+	<form method="POST">
+		<input type="text" name="name">
+		<input type="submit" value="submit">
+		<ul class="posts">
+			<% for(var i=0; i<posts.length; i++){ %>
+				<li><%= posts[i] %></li>
+			<% } %>
+		</ul>
+	</form>
+
+</body>
+</html>
