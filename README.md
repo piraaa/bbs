@@ -13,3 +13,7 @@ $ npm install mongodb
 $ mongo                                                                                                                                           
 MongoDB shell version v4.0.3
 ```
+
+```
+$ npm install ejs
+```
