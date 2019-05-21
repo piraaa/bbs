@@ -39,7 +39,7 @@ server.on("request", function(req, res){
 	var tmp = req.url.split(".");
 	var ext = tmp[tmp.length-1];
 	var path = '.' + req.url;
-
+	
 	switch(ext){
 		case '/':
 			if(req.method == "POST"){
@@ -64,7 +64,17 @@ server.on("request", function(req, res){
 							})
 						});
 					}else if(qs.parse(req.data).button == "change"){
-						renderForm(res);
+						req.on("end", function(){
+							var num = qs.parse(req.data).num;
+							var name = qs.parse(req.data).name;
+							var post = qs.parse(req.data).post;
+
+							getPosts(function(data){
+								var id = data[num]._id;
+								db.collection(postCollection).update({_id:id},{post:post, name:name});
+								renderForm(res);
+							})
+						});
 					}
 				});
 			}else{
@@ -77,6 +87,8 @@ server.on("request", function(req, res){
 			res.end(data, "utf-8");
 			});
 			break;
+		case 'ico':
+			console.log("favicon requested");
 		default:
 			res.writeHead(404, {"Content-Type": "text/html"});
 			res.write("<h1>404 not found</h1>");
