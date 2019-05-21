@@ -82,7 +82,6 @@ function renderForm(res){
 			posts.push(row[postField]);
 			names.push(row[nameField]);
 		}
-		console.log(posts, names);
 		var data = ejs.render(template, {
 			posts: posts,
 			names: names
