@@ -16,7 +16,6 @@ const postField = settings.postField;
 const nameField = settings.nameField;
 
 const url = "mongodb://" + host + "/" + dbname;
-console.log(url);
 const MongoClient = mongodb.MongoClient;
 var db;
 
@@ -47,11 +46,26 @@ server.on("request", function(req, res){
 				req.data = "";
 				req.on("data", function(data){
 					req.data += data;
-				});
-				req.on("end", function(){
-					var query = qs.parse(req.data);
-					savePosts(query);
-					renderForm(res);
+
+					// 受信データがどのbuttonを押してから送信されたかをbuttonのvalueで確認する
+					if(qs.parse(req.data).button == "submit"){
+						req.on("end", function(){
+							var query = qs.parse(req.data);
+							savePosts(query);
+							renderForm(res);
+						});
+					}else if(qs.parse(req.data).button == "del"){
+						req.on("end", function(){
+							var num = qs.parse(req.data).num;
+							getPosts(function(data){
+								var id = data[num]._id;
+								db.collection(postCollection).deleteOne({_id:id});
+								renderForm(res);
+							})
+						});
+					}else if(qs.parse(req.data).button == "change"){
+						renderForm(res);
+					}
 				});
 			}else{
 				renderForm(res);

@@ -7,17 +7,53 @@
 </head>
 
 <body>
-	<h1>BBS</h1>
+	<header>
+		<div class="container">
+			<h1>BSS</h1>
+		</div>
+	</header>
 
-	<form method="POST">
-		<input type="text" name="name">
-		<input type="submit" value="submit">
-		<ul class="posts">
-			<% for(var i=0; i<posts.length; i++){ %>
-				<li><%= posts[i] %></li>
-			<% } %>
-		</ul>
-	</form>
+	<main>
+		<div class="container">
+			<form method="POST" action="/" id="post-form">
+				<p>
+					<label for="post-field">post</label>
+					<input type="text" name="post">
+				</p>
+				<p>
+					<label for="name-field">name</label>
+					<input type="text" name="name">
+				</p>
+				<p>
+					<button type="submit" name="button" value="submit">post</button>
+				</p>
+			</form>
+		</div>
+
+		<div class="container">
+			<ul class="posts">
+				<% for(var i=0; i<posts.length; i++){ %>
+					<li class="post">
+						<p class="num"><%= i+1%></p>
+						<p class="name"><%= names[i]%></p>
+						<p class="post"><%= posts[i]%></p>
+
+						<form action="/" method="POST">
+							<input type="hidden" name="num" value="<%= i%>">
+							<button type="submit" name="button" value="del" id="del-button">delete</button>
+						</form>
+				</li>
+				<% } %>
+			</ul>
+		</div>
+
+	</main>
+
+	<footer>
+		<div class="container">
+			
+		</div>
+	</footer>
 
 </body>
 </html>
