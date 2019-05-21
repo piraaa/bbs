@@ -13,7 +13,7 @@ const port = settings.port;
 const dbname = settings.dbname;
 const postCollection = settings.postCollection;
 const postField = settings.postField;
-const userField = settings.userField;
+const nameField = settings.nameField;
 
 const url = "mongodb://" + host + "/" + dbname;
 console.log(url);
@@ -50,8 +50,7 @@ server.on("request", function(req, res){
 				});
 				req.on("end", function(){
 					var query = qs.parse(req.data);
-					// posts.push(query.name);
-					savePosts(query.name);
+					savePosts(query);
 					renderForm(res);
 				});
 			}else{
@@ -76,13 +75,17 @@ server.listen(port, host, function(){
 });
 
 function renderForm(res){
-	var docs = [];
-	getPosts(function(posts){
-		for(let row of posts){
-			docs.push(row[postField]);
+	var posts = [];
+	var names = [];
+	getPosts(function(data){
+		for(let row of data){
+			posts.push(row[postField]);
+			names.push(row[nameField]);
 		}
+		console.log(posts, names);
 		var data = ejs.render(template, {
-			posts: docs
+			posts: posts,
+			names: names
 		});
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(data, "utf-8");
@@ -90,7 +93,7 @@ function renderForm(res){
 }
 
 var savePosts = function(data){
-	db.collection(postCollection).insertOne({post: data, user: null});
+	db.collection(postCollection).insertOne({post: data[postField], name: data[nameField]});
 }
 
 var getPosts = function(callback){
