@@ -11,7 +11,9 @@ const settings = require("./settings");
 const host = settings.host;
 const port = settings.port;
 const dbname = settings.dbname;
-const postsCollection = settings.postsCollection;
+const postCollection = settings.postCollection;
+const postField = settings.postField;
+const userField = settings.userField;
 
 const url = "mongodb://" + host + "/" + dbname;
 console.log(url);
@@ -74,11 +76,10 @@ server.listen(port, host, function(){
 });
 
 function renderForm(res){
-	var posts =[];
 	var docs = [];
 	getPosts(function(posts){
 		for(let row of posts){
-			docs.push(row.posts.toString());
+			docs.push(row[postField]);
 		}
 		var data = ejs.render(template, {
 			posts: docs
@@ -89,11 +90,11 @@ function renderForm(res){
 }
 
 var savePosts = function(data){
-	db.collection(postsCollection).insertOne({posts: data});
+	db.collection(postCollection).insertOne({post: data, user: null});
 }
 
 var getPosts = function(callback){
-	db.collection(postsCollection).find().toArray(function(err, data){
+	db.collection(postCollection).find().toArray(function(err, data){
 		callback(data);
 	})
 }
